@@ -38,4 +38,5 @@ curl -s $BASE  \
   | xargs printf -- "$BASE%s\n" \
   | xargs wget -c -P $DUMPS
 
-gunzip -k $DUMPS/*
+# no need to gunzip, cirrus-extractor.py in wikiextractor/ does it automatically
+# gunzip -k $DUMPS/*
