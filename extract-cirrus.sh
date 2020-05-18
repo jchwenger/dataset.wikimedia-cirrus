@@ -14,9 +14,11 @@ echo ""
 echo_underlined "dumps:"
 echo $NAMES | sed 's/ /\n/g'
 
+echo_underlined "extracting:"
+
 for NAME in ${NAMES[@]}
 do
-  echo "extracting: $NAME"
+  echo "$NAME"
 
   NEW_NAME=$DUMP/$(basename ${NAME%.json.gz}.txt)
   python2 wikiextractor/cirrus-extract.py $NAME \
