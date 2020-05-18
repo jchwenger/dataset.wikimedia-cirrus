@@ -8,7 +8,7 @@ echo ""
 echo "extracting cirrus dumps"
 
 DUMP=cirrus
-declare -a NAMES=$(ls $DUMP/*.gz)
+declare -a NAMES=$(ls $DUMP/*.json)
 
 echo ""
 echo_underlined "dumps:"
@@ -20,7 +20,7 @@ do
   echo_underlined "extracting: $NAME"
   echo ""
 
-  NEW_NAME=$DUMP/$(basename ${NAME%.bz2}.txt)
+  NEW_NAME=$DUMP/$(basename ${NAME%.json}.txt)
   python wikiextractor/cirrus-extract.py $NAME \
       -q -o - \
     | grep -v "^<doc id=" \
