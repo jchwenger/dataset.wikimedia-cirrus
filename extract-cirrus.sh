@@ -16,17 +16,14 @@ echo $NAMES | sed 's/ /\n/g'
 
 for NAME in ${NAMES[@]}
 do
-  echo ""
-  echo_underlined "extracting: $NAME"
-  echo ""
+  echo "extracting: $NAME"
 
   NEW_NAME=$DUMP/$(basename ${NAME%.json.gz}.txt)
   python2 wikiextractor/cirrus-extract.py $NAME \
-      -q -o - \
+      -o - \
     | grep -v "^<doc id=" \
     | grep -v "</doc>\$" \
     > $NEW_NAME
 
-  echo_sep
 done
 
