@@ -22,7 +22,7 @@ do
 
   NEW_NAME=$DUMP/$(basename ${NAME%.bz2}.txt)
   python wikiextractor/WikiExtractor.py $NAME --templates .templates-cache \
-    --processes 8 -q -o - \
+    --processes $(nproc) -q -o - \
     | grep -v "^<doc id=" \
     | grep -v "</doc>\$" \
     > $NEW_NAME
