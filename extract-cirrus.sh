@@ -22,7 +22,7 @@ do
 
   NEW_NAME=$DUMP/$(basename ${NAME%.bz2}.txt)
   python wikiextractor/cirrus-extract.py $NAME \
-    --processes 8 -q -o - \
+      -q -o - \
     | grep -v "^<doc id=" \
     | grep -v "</doc>\$" \
     > $NEW_NAME
