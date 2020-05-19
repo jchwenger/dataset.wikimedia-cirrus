@@ -24,19 +24,27 @@ if [ ! -d $DUMPS ]; then
 fi
 
 BASE="https://dumps.wikimedia.org/other/cirrussearch/current/"
+LINKS_FILE="cirrus-links.txt"
 
-echo "downloading into '$DUMPS' all '$LANG' dumps from:"
+echo "downloading all links for '$LANG' dumps available on:"
 echo "$BASE"
+echo "into $LINKS_FILE"
 echo_sep
-echo ""
 
 # xargs with printf: https://unix.stackexchange.com/a/365403
 curl -s $BASE  \
   | grep -Po "frwik.*?content.*?gz" \
   | uniq \
   | sort -r \
-  | xargs printf -- "$BASE%s\n" \
+  | xargs -I '{}' echo "$BASE"'{}' \
+  > $LINKS_FILE
+
+
+echo "downloading into '$DUMPS' all '$LANG' dumps from:"
+echo "$BASE"
+echo_sep
+echo ""
+
+cat $LINKS_FILE \
   | xargs wget -c -P $DUMPS
 
-# no need to gunzip, cirrus-extractor.py in wikiextractor/ does it automatically
-# gunzip -k $DUMPS/*
