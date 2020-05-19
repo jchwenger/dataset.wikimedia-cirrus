@@ -18,14 +18,10 @@ echo_underlined "extracting:"
 
 for NAME in ${NAMES[@]}
 do
-  echo "$NAME"
+  echo_underlined "$NAME"
+  echo_sep
 
-  NEW_NAME=$DUMP/$(basename ${NAME%.json.gz}.txt)
-  python2 wikiextractor/cirrus-extract.py $NAME \
-      -o - \
-    | grep -v "^<doc id=" \
-    | grep -v "</doc>\$" \
-    > $NEW_NAME
+  python wikiextractor/cirrusextractor.py $NAME
 
 done
 
