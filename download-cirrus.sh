@@ -6,8 +6,9 @@ source utils.sh
 
 if [ $# -lt 1 ]; then
   echo ""
-  echo "please specify a language:"
-  echo "./download.sh <lang>"
+  echo "please specify a source file with link (line separated):"
+  echo "use ./get-links.sh to fetch the links"
+  echo "./download.sh <file>"
   exit 1
 fi
 
@@ -15,7 +16,7 @@ echo ""
 echo_underlined "downloading cirrus dumps..."
 echo "(with templates replacement already done)"
 
-LANG=$1
+source_file=$1
 DUMPS="cirrus"
 
 if [ ! -d $DUMPS ]; then
@@ -26,22 +27,8 @@ fi
 BASE="https://dumps.wikimedia.org/other/cirrussearch/current/"
 LINKS_FILE="cirrus-links.txt"
 
-echo "downloading all links for '$LANG' dumps available on:"
-echo "$BASE"
-echo "into $LINKS_FILE"
-echo_sep
-
-# xargs with printf: https://unix.stackexchange.com/a/365403
-curl -s $BASE  \
-  | grep -Po "frwik.*?content.*?gz" \
-  | uniq \
-  | sort -r \
-  | xargs -I '{}' echo "$BASE"'{}' \
-  > $LINKS_FILE
-
-
-echo "downloading into '$DUMPS' all '$LANG' dumps from:"
-echo "$BASE"
+echo "downloading into '$DUMPS' for all links from '$source_file':"
+cat "$source_file"
 echo_sep
 echo ""
 
