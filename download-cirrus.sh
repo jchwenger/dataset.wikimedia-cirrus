@@ -8,7 +8,7 @@ if [ $# -lt 1 ]; then
   echo ""
   echo "please specify a source file with link (line separated):"
   echo "use ./get-links.sh to fetch the links"
-  echo "./download.sh <file>"
+  echo "./download-cirrus.sh <file>"
   exit 1
 fi
 
