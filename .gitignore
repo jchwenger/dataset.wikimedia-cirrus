@@ -1,3 +1,4 @@
 cirrus
 wikimedia
-cirrus-links.txt
+*.cirrus-links.txt
+.templates-cache
