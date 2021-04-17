@@ -19,9 +19,10 @@ echo_underlined "extracting:"
 
 for NAME in ${NAMES[@]}
 do
-  echo "$NAME"
+  echo "- $NAME"
 
-  python wikiextractor/cirrusextractor.py -c $NAME
+  python wikiextractor/cirrusextractor.py $NAME --gather --bytes "100M" || break
+
 
 done
 
