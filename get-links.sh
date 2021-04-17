@@ -9,6 +9,10 @@ if [ $# -lt 1 ]; then
   echo "please specify a language:"
   echo "./get-links.sh <lang>"
   echo "(then use ./download.sh <file>)"
+  echo ""
+  echo "available language codes (and other odd things):"
+  declare -a LANGS=$(curl -is https://dumps.wikimedia.org/other/cirrussearch/current/ | grep -Po "(?<==\")\w+(?=wiki)" | uniq)
+  echo $LANGS | sed 's/ /, /g'
   exit 1
 fi
 
