@@ -42,7 +42,7 @@ echo_sep
 # collect all the wiki names
 declare -a NAMES=$(
   curl -s "https://dumps.wikimedia.org/backup-index.html" \
-    | grep -oP "frwik\w+" \
+    | grep -oP "${LANG}wik\w+" \
     | uniq \
     | sort -r
 )
