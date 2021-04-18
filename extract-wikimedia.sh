@@ -14,18 +14,30 @@ echo ""
 echo_underlined "dumps:"
 echo $NAMES | sed 's/ /\n/g'
 
+echo ""
+echo_underlined "extracting:"
+
 for NAME in ${NAMES[@]}
 do
-  echo ""
-  echo_underlined "extracting: $NAME"
-  echo ""
+  echo "$NAME"
 
-  NEW_NAME=$DUMP/$(basename ${NAME%.bz2}.txt)
-  python wikiextractor/WikiExtractor.py $NAME --templates .templates-cache \
-    --processes $(nproc) -q -o - \
-    | grep -v "^<doc id=" \
-    | grep -v "</doc>\$" \
-    > $NEW_NAME
+  python wikiextractor/wikiextractor.py $NAME \
+    --templates .templates-cache \
+    --processes $(nproc) \
+    --bytes "100M" \
+    --quiet \
+    --output $DUMP
 
-  echo_sep
+  NEW_NAME="${DUMP}/$(basename ${NAME%-pages-articles-multistream.xml.bz2})"
+
+  find "${NEW_NAME}"/*/* -exec \
+    sed -i \
+      -e 's/(\s*dernière mise à jour\s*)//g' \
+      -e '/^ dernière mise à jour : $/d' \
+      -e 's/​\+//g' \
+      -e 's/[ \t]/ /g' \
+      -e '/\S/,/^\s*$/!d' {} + # merge blank lines: https://stackoverflow.com/a/24374131
+
 done
+
+echo_sep
